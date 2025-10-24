@@ -5,7 +5,8 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {selectLoginError, selectLoginLoading} from "./usersSlice.ts";
 import {type ChangeEvent, type FormEvent, useState} from "react";
 import type {LoginMutation} from "../../types";
-import {login} from "./usersThunks.ts";
+import {googleLogin, login} from "./usersThunks.ts";
+import {type CredentialResponse, GoogleLogin} from "@react-oauth/google";
 
 const Login = () => {
     const dispatch = useAppDispatch();
@@ -34,6 +35,13 @@ const Login = () => {
         }
     };
 
+    const googleLoginHandler = async (credentialResponse: CredentialResponse) => {
+        if(credentialResponse.credential) {
+            await dispatch(googleLogin(credentialResponse.credential)).unwrap();
+            navigate('/');
+        }
+    }
+
     return (
         <Box sx={{marginTop: 8, display: 'flex',flexDirection: 'column', alignItems: 'center'}}>
             <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
@@ -47,6 +55,9 @@ const Login = () => {
                     {error.error}
                 </Alert>
             )}
+            <Box sx={{mt: 3}}>
+                <GoogleLogin onSuccess={googleLoginHandler}></GoogleLogin>
+            </Box>
             <Box component={'form'} onSubmit={onSubmitForm} sx={{my: 3, maxWidth: '400px', width: '100%'}}>
                 <Stack spacing={2}>
                     <TextField
