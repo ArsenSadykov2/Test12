@@ -76,7 +76,6 @@ usersRouter.post('/google', async (req, res, next) => {
         let user = await User.findOne({googleId: id});
         if (!user) {
             user = new User({
-                username: email,
                 email: email,
                 password: crypto.randomUUID(),
                 googleId: id,
