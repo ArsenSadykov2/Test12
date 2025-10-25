@@ -32,6 +32,18 @@ interface RecipeMutation {
     image: File | null;
 }
 
+export interface Comment {
+    _id: string;
+    author: User;
+    recipe: Recipe;
+    comment: string;
+}
+
+export interface CommentMutation {
+    comment: string;
+    recipe: string;
+}
+
 export interface ValidationError {
     errors: {
         [key: string]: {
@@ -43,7 +55,6 @@ export interface ValidationError {
         _message: string;
     }
 }
-
 
 export interface GlobalError {
     error: string;

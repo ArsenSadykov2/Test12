@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import {persistReducer, persistStore} from "redux-persist";
 import {FLUSH, REHYDRATE, PAUSE, PERSIST, REGISTER} from 'redux-persist/es/constants'
 import {recipesReducer} from "../features/recipes/recipesSlice.ts";
+import {commentsReducer} from "../features/comments/commentsSlice.ts";
 
 
 const userPersistConfig = {
@@ -13,6 +14,7 @@ const userPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+    comments: commentsReducer,
     recipes: recipesReducer,
     users: persistReducer(userPersistConfig, usersReducer),
 });
