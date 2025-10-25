@@ -23,7 +23,7 @@ const AppToolbar = () => {
         <AppBar position="sticky" sx={{mb: 2}}>
             <Toolbar sx={{justifyContent: 'space-between'}}>
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                    <Link to="/">Music Store</Link>
+                    <Link to="/">Welcome to Recipe's Books store</Link>
                 </Typography>
                 <Box>
                     {user ? <UserMenu user={user}/> : <AnonymousMenu/>}

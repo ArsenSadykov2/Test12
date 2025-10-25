@@ -9,7 +9,7 @@ const usersRouter = express.Router();
 const googleClient = new OAuth2Client(config.google.clientId);
 
 usersRouter.post("/", async (req, res, next) => {
-    const userData: Omit<UserFields, 'token' | 'role'> = {
+    const userData: Omit<UserFields, 'token'> = {
         email: req.body.email,
         password: req.body.password,
         displayName: req.body.displayName,

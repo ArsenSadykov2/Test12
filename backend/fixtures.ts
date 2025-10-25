@@ -17,7 +17,6 @@ const run = async () => {
         email: 'Admin@mail.com',
         password: '123',
         displayName: 'Admin',
-        role: 'admin',
         token: randomUUID(),
     });
 
@@ -25,7 +24,6 @@ const run = async () => {
         email: 'User@mail.com',
         password: '123',
         displayName: 'User',
-        role: 'user',
         token: randomUUID(),
     });
 
