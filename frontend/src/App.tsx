@@ -4,6 +4,8 @@ import AppToolbar from './components/AppToolbar/AppToolbar';
 import {Route, Routes } from 'react-router-dom';
 import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
+import Recipes from "./features/recipes/ Recipes.tsx";
+import FullRecipe from './features/recipes/FullRecipe.tsx';
 
 const App = () => (
     <>
@@ -17,6 +19,8 @@ const App = () => (
       <main>
         <Container maxWidth="xl">
           <Routes>
+            <Route path="/" element={<Recipes/>}/>
+            <Route path="/recipes/:id" element={<FullRecipe/>}/>
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="*" element={<Typography variant="h4">Not Found Page</Typography>}/>

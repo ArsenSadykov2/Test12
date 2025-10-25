@@ -17,6 +17,21 @@ export interface LoginMutation {
     password: string;
 }
 
+export interface Recipe {
+    _id: string;
+    author: User;
+    title: string;
+    recipe: string;
+    image?: string | null;
+}
+
+interface RecipeMutation {
+    author: string;
+    title: string;
+    recipe: string;
+    image: File | null;
+}
+
 export interface ValidationError {
     errors: {
         [key: string]: {
