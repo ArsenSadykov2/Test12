@@ -20,7 +20,7 @@ const NewRecipe = () => {
             navigate("/");
         } catch (e) {
             console.error(e);
-            toast.error("Please fill in all required fields");
+            toast.error("Error creating new recipe");
         }
     };
     return (

@@ -49,7 +49,7 @@ const FullRecipe = () => {
     }, [id, dispatch]);
 
     const recipeComments = comments.filter(comment =>
-        comment.recipe._id === id
+        comment.recipe && comment.recipe._id === id
     );
 
     const handleSubmitComment = async (e: React.FormEvent) => {

@@ -44,6 +44,11 @@ export interface CommentMutation {
     recipe: string;
 }
 
+interface FormErrors {
+    title?: string;
+    recipe?: string;
+}
+
 export interface ValidationError {
     errors: {
         [key: string]: {
