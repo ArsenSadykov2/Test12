@@ -2,6 +2,7 @@ import express from "express";
 import auth, {RequestWithUser} from "../middleware/auth";
 import {Error, Types} from "mongoose";
 import Comment from "../models/Comment";
+import Recipe from "../models/Recipe";
 
 const commentsRouter = express.Router();
 
@@ -13,13 +14,13 @@ commentsRouter.get('/', async (req, res, next) => {
         const comments = await Comment.find(filter)
             .populate({
                 path: 'author',
-                select: '-password -token -_id'
+                select: '-password -token'
             })
             .populate({
                 path: 'recipe',
                 populate: {
                     path: 'author',
-                    select: '-password -token -_id'
+                    select: '-password -token'
                 }
             })
             .exec();
@@ -35,13 +36,13 @@ commentsRouter.get('/:id', async (req, res, next) => {
         const comment = await Comment.findById(id)
             .populate({
                 path: 'author',
-                select: '-password -token -_id'
+                select: '-password -token'
             })
             .populate({
                 path: 'recipe',
                 populate: {
                     path: 'author',
-                    select: '-password -token -_id'
+                    select: '-password -token'
                 }
             })
             .exec();
@@ -65,7 +66,7 @@ commentsRouter.post("/", auth, async (req, res, next) => {
         await comment.save();
         await comment.populate({
             path: 'author',
-            select: '-password -token -_id'
+            select: '-password -token'
         });
         res.status(201).send(comment);
     } catch (e) {
@@ -73,6 +74,33 @@ commentsRouter.post("/", auth, async (req, res, next) => {
             res.status(400).send(e);
             return;
         }
+        next(e);
+    }
+});
+
+commentsRouter.delete("/:id", auth, async (req, res, next) => {
+    try{
+        const {id} = req.params;
+        const user = (req as RequestWithUser).user;
+
+        const comment = await Comment.findById(id);
+        if(!comment) {
+            res.status(404).send("Comment not found");
+            return;
+        }
+
+        const isCommentAuthor = comment.author.toString() === user._id.toString();
+
+        const recipe = await Recipe.findById(comment.recipe);
+        const isRecipeAuthor = recipe && recipe.author.toString() === user._id.toString();
+
+        if (!isCommentAuthor && !isRecipeAuthor) {
+            return res.status(403).send({error: "You do not have permission"});
+        }
+
+        await Comment.findByIdAndDelete(id);
+        res.send({message: "Comment deleted successfully."});
+    } catch (e) {
         next(e);
     }
 });
