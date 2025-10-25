@@ -1,5 +1,4 @@
 import {
-    Button,
     Card,
     CardActions,
     CardContent,
@@ -9,12 +8,7 @@ import {
     Typography
 } from "@mui/material";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import DeleteIcon from '@mui/icons-material/Delete';
 import {Link} from 'react-router-dom';
-import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
-import {selectUser} from "../../users/usersSlice.ts";
-import {selectRecipeDeleteLoading} from "../recipesSlice.ts";
-import {deleteRecipe} from "../recipesThunks.ts";
 import type {User} from "../../../types";
 import NotFoundPic from '../../../assets/images/NotFoundPic.png';
 import {apiUrl} from "../../../../globalConstants.ts";
@@ -25,31 +19,10 @@ interface Props {
     recipe: string;
     image: string | undefined;
     author: User;
-    onDelete?: () => void;
-    showDeleteButton?: boolean;
 }
 
-const RecipeItem: React.FC<Props> = ({id, title, recipe, image, author, onDelete, showDeleteButton = true,}) => {
-    const dispatch = useAppDispatch();
-    const user = useAppSelector(selectUser);
-    const deleteLoading = useAppSelector(selectRecipeDeleteLoading);
-
+const RecipeItem2: React.FC<Props> = ({id, title, recipe, image, author}) => {
     const cardImage = image ? apiUrl + '/' + image : NotFoundPic;
-
-    const isAuthor = user && author && author._id === user._id;
-
-    const handleDeleteClick = async () => {
-        if (!id) return;
-
-        try {
-            await dispatch(deleteRecipe(id)).unwrap();
-            if (onDelete) {
-                onDelete();
-            }
-        } catch (error) {
-            console.error('Delete error:', error);
-        }
-    };
 
     return (
         <Grid size={{xs: 12, sm: 6, md: 4, lg: 3}}>
@@ -94,22 +67,10 @@ const RecipeItem: React.FC<Props> = ({id, title, recipe, image, author, onDelete
                     >
                         <ArrowForwardIcon />
                     </IconButton>
-
-                    {showDeleteButton && isAuthor && (
-                        <Button
-                            startIcon={<DeleteIcon />}
-                            onClick={handleDeleteClick}
-                            disabled={deleteLoading}
-                            color="error"
-                            size="small"
-                        >
-                            Delete
-                        </Button>
-                    )}
                 </CardActions>
             </Card>
         </Grid>
     );
 };
 
-export default RecipeItem;
+export default RecipeItem2;

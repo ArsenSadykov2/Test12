@@ -18,7 +18,7 @@ recipeRouter.get('/', async (req, res, next) => {
         const recipes = await Recipe.find({})
             .populate({
                 path: 'author',
-                select: '-password -token -_id'
+                select: '-password -token'
             })
             .exec();
         res.send(recipes);
@@ -33,7 +33,7 @@ recipeRouter.get('/:id', async (req, res, next) => {
         const recipe = await Recipe.findById(id)
             .populate({
                 path: 'author',
-                select: '-password -token -_id'
+                select: '-password -token'
             })
             .exec();
         if (!recipe) {
@@ -65,7 +65,7 @@ recipeRouter.post("/",auth, imagesUpload.single('image'), async (req, res, next)
         await recipe.save();
         await recipe.populate({
             path: 'author',
-            select: '-password -token -_id'
+            select: '-password -token'
         });
         const recipeObject = recipe.toObject();
         res.status(201).send(recipeObject);
@@ -74,6 +74,29 @@ recipeRouter.post("/",auth, imagesUpload.single('image'), async (req, res, next)
             res.status(400).send(e);
             return;
         }
+        next(e);
+    }
+});
+
+recipeRouter.delete("/:id", auth, async (req, res, next) => {
+    try{
+        const {id} = req.params;
+        const user = (req as RequestWithUser).user;
+
+        const recipe = await Recipe.findById(id);
+        if(!recipe) {
+            return res.status(404).send({error: "Recipe not found"});
+        }
+
+        const isAuthor = recipe.author.toString() === user._id.toString();
+
+        if (!isAuthor) {
+            return res.status(403).send({error: "You do not have permission"});
+        }
+
+        await Recipe.findByIdAndDelete(id);
+        res.send({message: "Recipe deleted successfully."});
+    } catch (e) {
         next(e);
     }
 });

@@ -6,6 +6,8 @@ import Register from "./features/users/Register.tsx";
 import Login from "./features/users/Login.tsx";
 import Recipes from "./features/recipes/ Recipes.tsx";
 import FullRecipe from './features/recipes/FullRecipe.tsx';
+import MyRecipes from "./features/recipes/MyRecipes.tsx";
+import NewRecipe from './features/recipes/NewRecipe.tsx';
 
 const App = () => (
     <>
@@ -21,6 +23,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Recipes/>}/>
             <Route path="/recipes/:id" element={<FullRecipe/>}/>
+            <Route path="/myRecipes" element={<MyRecipes/>} />
+            <Route path="/newRecipe" element={<NewRecipe/>} />
             <Route path="/register" element={<Register/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="*" element={<Typography variant="h4">Not Found Page</Typography>}/>

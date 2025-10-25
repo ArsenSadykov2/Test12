@@ -42,14 +42,11 @@ const UserMenu: React.FC<Props> = ({user}) => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem color="inherit" component={NavLink} to="/">
-
+                <MenuItem color="inherit" component={NavLink} to="/newRecipe">
+                    Add New Recipe
                 </MenuItem>
-                <MenuItem color="inherit" component={NavLink} to="/">
-
-                </MenuItem>
-                <MenuItem color="inherit" component={NavLink} to="/">
-                    -
+                <MenuItem color="inherit" component={NavLink} to="/myRecipes">
+                    My Recipe's
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>

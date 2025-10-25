@@ -11,10 +11,12 @@ const RecipeSchema = new Schema({
     title: {
         type: String,
         required: true,
+        trim: true,
     },
     recipe: {
         type: String,
         default: "",
+        trim: true,
     },
     image: {
         type: String,
